@@ -76,7 +76,7 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
                         @(ALAssetsGroupPhotoStream),
                         @(ALAssetsGroupAlbum)
                         ];
-    self.filterType = QBImagePickerControllerFilterTypeNone;
+    self.filterType = QBImagePickerControllerFilterTypePhotos;
     self.showsCancelButton = YES;
     
     // View settings

@@ -20,7 +20,8 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backToHome)];
     
-    UIImage *image = [self gousei:_assets];
+//    UIImage *image = [self gousei:_assets];
+    UIImage *image = self.gouseiImage;
     NSLog(@"%f:%f", image.size.width, image.size.height);
     NSLog(@"%f:%f", self.view.bounds.size.width, self.view.bounds.size.height);
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, image.size.width/2, image.size.height/2)];

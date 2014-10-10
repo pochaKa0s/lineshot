@@ -58,9 +58,11 @@
     // こっから飛ぶ
 
     SecondViewController *secondViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SecondView"];
-    secondViewController.assets = assets;
+//    secondViewController.assets = assets;
+    secondViewController.gouseiImage = [self gousei:assets];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:secondViewController];
     
-    [self presentViewController:secondViewController animated:YES completion:nil];
+    [self presentViewController:nav animated:YES completion:nil];
 
 }
 
@@ -68,5 +70,38 @@
 {
     NSLog(@"*** qb_imagePickerControllerDidCancel:");
     [self dismissImagePickerController];
+}
+
+- (UIImage *)gousei:(NSArray *)assets
+{
+    
+    NSMutableArray *images = [NSMutableArray new];
+    CGFloat imageHeight=0;
+    for (ALAsset *asset in assets) {
+        ALAssetRepresentation *representation = [asset defaultRepresentation];
+        UIImage *image = [UIImage imageWithCGImage:[representation fullResolutionImage]];
+        [images addObject:image];
+        imageHeight += image.size.height;
+    }
+    
+    
+    // 二枚目以降を順繰り合成
+    UIImage *image0 = images[0];
+    
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(image0.size.width, imageHeight), NO, 0.0);
+    [image0 drawAtPoint:CGPointMake(0, 0)];
+    imageHeight = image0.size.height;
+    for (int i = 1; i < [assets count]; i++) {
+        UIImage *image = images[i];
+        [image drawAtPoint:CGPointMake(0, imageHeight)];
+        imageHeight += image.size.height;
+    }
+    
+    image0 = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image0;
+    
+    
 }
 @end

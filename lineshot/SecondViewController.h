@@ -13,4 +13,5 @@
 
 @interface SecondViewController : UIViewController
 @property NSArray *assets;
+@property UIImage *gouseiImage;
 @end

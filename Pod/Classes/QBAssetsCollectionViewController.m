@@ -111,13 +111,17 @@
     
     [self.assetsGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
         if (result) {
-            numberOfAssets++;
             
             NSString *type = [result valueForProperty:ALAssetPropertyType];
             if ([type isEqualToString:ALAssetTypePhoto]) numberOfPhotos++;
             else if ([type isEqualToString:ALAssetTypeVideo]) numberOfVideos++;
-            
-            [assets addObject:result];
+            if([self isScreenShot:[UIImage imageWithCGImage:[[result defaultRepresentation] fullResolutionImage]]]){
+                numberOfAssets++;
+                [assets addObject:result];
+
+
+            }
+
         }
     }];
     
@@ -128,6 +132,13 @@
     
     // Update view
     [self.collectionView reloadData];
+}
+
+- (BOOL)isScreenShot:(UIImage *)image{
+    CGSize size = UIScreen.mainScreen.bounds.size;
+    size.width *= UIScreen.mainScreen.scale;
+    size.height *= UIScreen.mainScreen.scale;
+    return CGSizeEqualToSize(size, image.size);
 }
 
 - (void)setAllowsMultipleSelection:(BOOL)allowsMultipleSelection
